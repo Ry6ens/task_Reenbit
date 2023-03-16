@@ -25,7 +25,7 @@ export default function FormLogIn() {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
 
-  const { logIn, signInWithGoogle } = useAuth();
+  const { logIn, signInWithGoogle, signInWithFacebook } = useAuth();
   const router = useRouter();
 
   function inputChangeHandler(e) {
@@ -60,6 +60,15 @@ export default function FormLogIn() {
     }
   };
 
+  const signInFacebook = async () => {
+    try {
+      await signInWithFacebook();
+      router.push('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <FormContainer>
       <Title>Log In</Title>
@@ -67,7 +76,7 @@ export default function FormLogIn() {
         <ButtonGoogle onClick={signInGoogle}>
           <GoogleIcon width="18" height="18" />
         </ButtonGoogle>
-        <ButtonGoogle onClick={signInGoogle}>
+        <ButtonGoogle onClick={signInFacebook}>
           <FacebookIcon width="24" height="24" />
         </ButtonGoogle>
       </ButtonContainer>

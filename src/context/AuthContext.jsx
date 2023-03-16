@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
   GoogleAuthProvider,
+  FacebookAuthProvider,
   signInWithPopup,
   onAuthStateChanged,
   createUserWithEmailAndPassword,
@@ -54,8 +55,17 @@ export const AuthContextProvider = ({ children }) => {
     return signInWithPopup(auth, googleProvider);
   };
 
+  // Facebook auth
+  const facebookProvider = new FacebookAuthProvider();
+
+  const signInWithFacebook = () => {
+    return signInWithPopup(auth, facebookProvider);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, signUp, logIn, logOut, signInWithGoogle }}>
+    <AuthContext.Provider
+      value={{ user, signUp, logIn, logOut, signInWithGoogle, signInWithFacebook }}
+    >
       {loading ? null : children}
     </AuthContext.Provider>
   );
