@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 
+import ProtectedRoute from '@/components/ProtectedRoute/ProtectedRoute';
+
 import Hero from '@/components/Hero/Hero';
 import PostFilter from '@/components/PostFilter/PostFilter';
 import PostsList from '@/components/PostsList/PostsList';
@@ -38,6 +40,8 @@ export default function Home() {
     }
 
     fetchPosts(getPage(), getQuery());
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter.query]);
 
   useEffect(() => {
@@ -65,21 +69,24 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <main>
-        <Hero />
-        <PostFilter filter={filter} setFilter={setFilter} />
+        <ProtectedRoute>
+          <Hero />
+          <PostFilter filter={filter} setFilter={setFilter} />
 
-        {postsError && (
-          <h2 style={{ marginTop: '32px', textAlign: 'center' }}>{postsError}</h2>
-        )}
+          {postsError && (
+            <h2 style={{ marginTop: '32px', textAlign: 'center' }}>{postsError}</h2>
+          )}
 
-        {postsIsLoading ? <Loader /> : <PostsList posts={sortedPosts} />}
+          {postsIsLoading ? <Loader /> : <PostsList posts={sortedPosts} />}
 
-        <Pagination
-          currentPage={getPage()}
-          totalPageCount={totalPages}
-          changePage={changePage}
-        />
+          <Pagination
+            currentPage={getPage()}
+            totalPageCount={totalPages}
+            changePage={changePage}
+          />
+        </ProtectedRoute>
       </main>
     </>
   );

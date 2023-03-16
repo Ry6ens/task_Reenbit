@@ -1,21 +1,19 @@
-import MyInput from '@/components/UI/MyInput/MyInput';
+import MyInputSearch from '@/components/UI/MyInputSearch/MyInputSearch';
 import MySelect from '@/components/UI/MySelect/MySelect';
 
 import { options } from './options';
 
 import { Section } from './PostFilter.styled';
 
-export default function Cards({ filter, setFilter }) {
+export default function PostFilter({ filter, setFilter }) {
   return (
     <Section>
-      <MyInput
+      <MyInputSearch
         type="text"
         placeholder="Filter by name..."
         autoFocus
         value={filter.query}
-        // value={filter}
         onChange={e => setFilter({ ...filter, query: e.target.value })}
-        // onChange={e => setFilter(e.target.value)}
       />
       <MySelect
         value={filter.sort}

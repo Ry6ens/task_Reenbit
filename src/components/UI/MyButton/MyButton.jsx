@@ -1,3 +1,5 @@
+import { Button } from './MyButton.styled';
+
 export default function MyButton({ onClick, children }) {
-  return <button onClick={onClick}>{children}</button>;
+  return <Button onClick={onClick}>{children}</Button>;
 }

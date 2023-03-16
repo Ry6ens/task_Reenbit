@@ -145,6 +145,7 @@ table {
 
 button {
   cursor: pointer;
+  
 }
 
 a {
