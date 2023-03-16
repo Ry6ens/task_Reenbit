@@ -33,6 +33,7 @@ export const AuthContextProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
+  // Email logIn, signUp, logOut
   const signUp = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
@@ -51,23 +52,6 @@ export const AuthContextProvider = ({ children }) => {
 
   const signInWithGoogle = () => {
     return signInWithPopup(auth, googleProvider);
-
-    // try {
-    //   const res = await signInWithPopup(auth, googleProvider);
-    //   const user = res.user;
-    //   const q = query(collection(db, 'users'), where('uid', '==', user.uid));
-    //   const docs = await getDocs(q);
-    //   if (docs.docs.length === 0) {
-    //     await addDoc(collection(db, 'users'), {
-    //       uid: user.uid,
-    //       name: user.displayName,
-    //       authProvider: 'google',
-    //       email: user.email,
-    //     });
-    //   }
-    // } catch (error) {
-    //   console.error(error.message);
-    // }
   };
 
   return (
