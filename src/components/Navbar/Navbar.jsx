@@ -5,15 +5,19 @@ import { useAuth } from '@/context/AuthContext';
 
 import { menuItems } from './options';
 
+import { useLocalStorage } from '@/components/hooks/useLocalStorage';
+
 import { Header, Nav, List, Item, ItemLink } from './Navbar.styled';
 
 export default function Navbar({ children }) {
+  const [setPage, getPage, setQuery, getQuery, setUID, getUID] = useLocalStorage();
   const { user, logOut } = useAuth();
   const router = useRouter();
 
   const handleLogout = async () => {
     try {
       await logOut();
+      setUID('');
       router.push('/login');
     } catch (error) {
       console.log(error.message);
@@ -26,7 +30,7 @@ export default function Navbar({ children }) {
         <Nav>
           <List>
             <>
-              {!user.uid ? (
+              {!getUID() ? (
                 menuItems.map(item => (
                   <Item key={item.id}>
                     <Link href={item?.link} legacyBehavior>

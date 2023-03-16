@@ -33,16 +33,7 @@ export default function FormSignUp() {
       await signUp(form.email, form.password);
       router.push('/');
     } catch (error) {
-      console.log(error.message);
-      if (error.message.includes('invalid-email')) {
-        setError('invalid-email');
-      }
-      if (error.message.includes('weak-password')) {
-        setError('Password should be at least 6 characters');
-      }
-      if (error.message.includes('internal-error')) {
-        setError('invalid-email or wrong-password');
-      }
+      setError(error.code);
     }
 
     setForm({ email: '', password: '', password_confirm: '' });

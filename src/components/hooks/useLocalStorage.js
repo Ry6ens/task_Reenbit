@@ -23,5 +23,18 @@ export const useLocalStorage = () => {
     }
   };
 
-  return [setPage, getPage, setQuery, getQuery];
+  const setUID = uid => {
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('uid', uid);
+    }
+  };
+
+  const getUID = () => {
+    if (typeof window !== 'undefined') {
+      const uid = window.localStorage.getItem('uid');
+      return uid ? uid : '';
+    }
+  };
+
+  return [setPage, getPage, setQuery, getQuery, setUID, getUID];
 };

@@ -8,7 +8,10 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
+
 import { auth } from '@/lib/firebase';
+import Loader from '@/components/UI/Loader/Loader';
+import { useLocalStorage } from '@/components/hooks/useLocalStorage';
 
 const AuthContext = createContext({});
 
@@ -17,6 +20,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({ email: null, uid: null });
   const [loading, setLoading] = useState(true);
+  const [setPage, getPage, setQuery, getQuery, setUID] = useLocalStorage();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
@@ -25,6 +29,7 @@ export const AuthContextProvider = ({ children }) => {
           email: user.email,
           uid: user.uid,
         });
+        setUID(user.uid);
       } else {
         setUser({ email: null, uid: null });
       }
@@ -34,7 +39,7 @@ export const AuthContextProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  // Email logIn, signUp, logOut
+  // LogIn, SignUp, LogOut
   const signUp = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
@@ -64,9 +69,16 @@ export const AuthContextProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, signUp, logIn, logOut, signInWithGoogle, signInWithFacebook }}
+      value={{
+        user,
+        signUp,
+        logIn,
+        logOut,
+        signInWithGoogle,
+        signInWithFacebook,
+      }}
     >
-      {loading ? null : children}
+      {loading ? <Loader /> : children}
     </AuthContext.Provider>
   );
 };

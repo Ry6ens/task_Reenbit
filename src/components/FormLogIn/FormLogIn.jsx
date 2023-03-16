@@ -40,12 +40,7 @@ export default function FormLogIn() {
       await logIn(form.email, form.password);
       router.push('/');
     } catch (error) {
-      if (error.message.includes('invalid-email')) {
-        setError('invalid-email');
-      }
-      if (error.message.includes('wrong-password')) {
-        setError('wrong-password');
-      }
+      setError(error.code);
     }
 
     setForm({ email: '', password: '' });
