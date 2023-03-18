@@ -4,10 +4,11 @@ import { useRouter } from 'next/router';
 
 import { useAuth } from '@/context/AuthContext';
 
-import MyInput from '@/components/UI/MyInput/MyInput';
+import EmailIcon from '../Icons/Email/Email';
+import LockIcon from '../Icons/Lock/Lock';
 import MyButton from '@/components/UI/MyButton/MyButton';
 
-import { FormContainer, Title, Button, Error, Form, Label } from './FormSignUp.styled';
+import { FormContainer, Title, Button, Error, Form, InputBox } from './FormSignUp.styled';
 
 export default function FormSignUp() {
   const [form, setForm] = useState({ email: '', password: '', password_confirm: '' });
@@ -43,39 +44,48 @@ export default function FormSignUp() {
     <FormContainer>
       <Title>Sign Up</Title>
       <Form onSubmit={onSubmit}>
-        <Label htmlFor="email">
-          <span>Email</span>
-          <MyInput
+        <InputBox>
+          <span>
+            <EmailIcon width={24} height={24} />
+          </span>
+          <input
             id="email"
-            type="text"
+            type="email"
             name="email"
             value={form.email}
             onChange={e => inputChangeHandler(e)}
             required
           />
-        </Label>
-        <Label htmlFor="passwordId">
-          <span>Password</span>
-          <MyInput
-            id="passwordId"
+          <label htmlFor="email">Email</label>
+        </InputBox>
+        <InputBox>
+          <span>
+            <LockIcon width={24} height={24} />
+          </span>
+          <input
+            id="password"
             type="password"
             name="password"
             value={form.password}
             onChange={e => inputChangeHandler(e)}
             required
           />
-        </Label>
-        <Label htmlFor="confirmPasswordId">
-          <span>Confirm Password</span>
-          <MyInput
-            id="confirmPasswordId"
+          <label htmlFor="password">Password</label>
+        </InputBox>
+        <InputBox>
+          <span>
+            <LockIcon width={24} height={24} />
+          </span>
+          <input
+            id="password_confirm"
             type="password"
             name="password_confirm"
             value={form.password_confirm}
             onChange={e => inputChangeHandler(e)}
             required
           />
-        </Label>
+          <label htmlFor="password_confirm">Confirm Password</label>
+        </InputBox>
 
         <MyButton type="submit">Sign Up Now</MyButton>
       </Form>

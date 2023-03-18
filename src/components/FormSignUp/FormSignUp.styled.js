@@ -47,13 +47,46 @@ export const Form = styled.form`
   max-width: 300px;
 `;
 
-export const Label = styled.label`
+export const InputBox = styled.div`
+  position: relative;
   width: 100%;
+  height: 55px;
+  border-bottom: 1px solid #162938;
 
-  font-size: 12px;
-  font-weight: 600;
-  text-align: center;
-  text-transform: uppercase;
+  & span {
+    position: absolute;
+    right: 8px;
+    font-size: 2.3em;
+  }
 
-  color: #505f75;
+  & input {
+    padding: 0px 36px 0px 8px;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+
+    &:focus ~ label,
+    &:valid ~ label {
+      top: 0px;
+      font-size: 14px;
+      transition: top 0.3s;
+    }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus {
+      transition: background-color 5000s ease-in-out 0s;
+    }
+  }
+
+  & label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    color: #162938;
+    pointer-events: none;
+  }
 `;

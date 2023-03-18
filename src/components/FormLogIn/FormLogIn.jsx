@@ -4,21 +4,22 @@ import { useRouter } from 'next/router';
 
 import { useAuth } from '@/context/AuthContext';
 
-import MyInput from '@/components/UI/MyInput/MyInput';
 import MyButton from '@/components/UI/MyButton/MyButton';
 
+import EmailIcon from '../Icons/Email/Email';
+import LockIcon from '../Icons/Lock/Lock';
 import GoogleIcon from '@/components/Icons/Google/Google';
 import FacebookIcon from '@/components/Icons/Facebook/Facebook';
 
 import {
   FormContainer,
   Title,
-  Button,
   Error,
   ButtonContainer,
   ButtonGoogle,
   Form,
-  Label,
+  InputBox,
+  SignUpBox,
 } from './FormLogIn.styled';
 
 export default function FormLogIn() {
@@ -29,6 +30,7 @@ export default function FormLogIn() {
   const router = useRouter();
 
   function inputChangeHandler(e) {
+    console.log(e.target.name);
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   }
@@ -76,35 +78,41 @@ export default function FormLogIn() {
         </ButtonGoogle>
       </ButtonContainer>
       <Form onSubmit={onSubmit}>
-        <Label htmlFor="email">
-          <span>Email</span>
-          <MyInput
+        <InputBox>
+          <span>
+            <EmailIcon width={24} height={24} />
+          </span>
+          <input
             id="email"
-            type="text"
+            type="email"
             name="email"
             value={form.email}
             onChange={e => inputChangeHandler(e)}
             required
           />
-        </Label>
-        <Label htmlFor="passwordId">
-          <span>Password</span>
-          <MyInput
-            id="passwordId"
+          <label htmlFor="email">Email</label>
+        </InputBox>
+        <InputBox>
+          <span>
+            <LockIcon width={24} height={24} />
+          </span>
+          <input
+            id="password"
             type="password"
             name="password"
             value={form.password}
             onChange={e => inputChangeHandler(e)}
             required
           />
-        </Label>
-
+          <label htmlFor="password">Password</label>
+        </InputBox>
         <MyButton type="submit">Log In</MyButton>
       </Form>
       {error && <Error>{error}</Error>}
-      <Button>
+      <SignUpBox>
+        <p>Don&apos;t have account?</p>
         <Link href="/signup">Sign Up</Link>
-      </Button>
+      </SignUpBox>
     </FormContainer>
   );
 }
