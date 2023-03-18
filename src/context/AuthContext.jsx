@@ -20,7 +20,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({ email: null, uid: null });
   const [loading, setLoading] = useState(true);
-  const [setPage, getPage, setQuery, getQuery, setUID] = useLocalStorage();
+  const [setPage, getPage, setQuery, getQuery, setUID, getUID] = useLocalStorage();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
@@ -55,14 +55,12 @@ export const AuthContextProvider = ({ children }) => {
 
   // Google auth
   const googleProvider = new GoogleAuthProvider();
-
   const signInWithGoogle = () => {
     return signInWithPopup(auth, googleProvider);
   };
 
   // Facebook auth
   const facebookProvider = new FacebookAuthProvider();
-
   const signInWithFacebook = () => {
     return signInWithPopup(auth, facebookProvider);
   };

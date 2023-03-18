@@ -30,7 +30,6 @@ export default function FormLogIn() {
   const router = useRouter();
 
   function inputChangeHandler(e) {
-    console.log(e.target.name);
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   }

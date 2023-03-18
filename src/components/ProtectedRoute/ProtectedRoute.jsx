@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 
 import { useAuth } from '@/context/AuthContext';
 import { useLocalStorage } from '@/components/hooks/useLocalStorage';

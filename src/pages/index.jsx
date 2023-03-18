@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import ProtectedRoute from '@/components/ProtectedRoute/ProtectedRoute';
 
@@ -30,6 +30,8 @@ export default function Home() {
     setTotalPages(data.info.pages);
   });
 
+  const didMountRef = useRef(false);
+
   useEffect(() => {
     setQuery(filter.query);
 
@@ -39,14 +41,19 @@ export default function Home() {
       return;
     }
 
-    fetchPosts(getPage(), getQuery());
+    didMountRef.current ? fetchPosts(getPage(), getQuery()) : '';
+    didMountRef.current = true;
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter.query]);
 
   useEffect(() => {
-    fetchPosts(getPage(), getQuery());
-
+    // if (didMountRef.current) {
+    //   return fetchPosts(getPage(), getQuery());
+    // }
+    // didMountRef.current = true;
+    // fetchPosts(getPage(), getQuery());
+    // console.log('second');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
