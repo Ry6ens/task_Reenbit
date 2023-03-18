@@ -32,6 +32,7 @@ export const AuthContextProvider = ({ children }) => {
         setUID(user.uid);
       } else {
         setUser({ email: null, uid: null });
+        setUID('');
       }
     });
     setLoading(false);
