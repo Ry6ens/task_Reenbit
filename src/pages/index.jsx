@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 import ProtectedRoute from '@/components/ProtectedRoute/ProtectedRoute';
 
@@ -18,7 +18,7 @@ import { getPosts } from '@/api/getPosts';
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
-  const [setPage, getPage, setQuery, getQuery] = useLocalStorage();
+  const [setPage, getPage, setQuery, getQuery, setUID, getUID] = useLocalStorage();
   const [filter, setFilter] = useState({ sort: 'name', query: getQuery() });
 
   const sortedPosts = useSortedPosts(posts, filter.sort);
@@ -30,8 +30,6 @@ export default function Home() {
     setTotalPages(data.info.pages);
   });
 
-  const didMountRef = useRef(false);
-
   useEffect(() => {
     setQuery(filter.query);
 
@@ -40,10 +38,9 @@ export default function Home() {
       setPage(1);
       return;
     }
+    console.log(Boolean(getUID()));
 
-    didMountRef.current ? fetchPosts(getPage(), getQuery()) : '';
-    console.log('first', didMountRef.current);
-    didMountRef.current = true;
+    getUID() ? fetchPosts(getPage(), getQuery()) : '';
 
     // fetchPosts(getPage(), getQuery());
 
