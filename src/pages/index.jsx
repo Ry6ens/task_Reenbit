@@ -41,19 +41,18 @@ export default function Home() {
       return;
     }
 
-    didMountRef.current ? fetchPosts(getPage(), getQuery()) : '';
-    didMountRef.current = true;
+    // didMountRef.current ? fetchPosts(getPage(), getQuery()) : '';
+    // didMountRef.current = true;
+
+    fetchPosts(getPage(), getQuery());
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter.query]);
 
   useEffect(() => {
-    // if (didMountRef.current) {
-    //   return fetchPosts(getPage(), getQuery());
-    // }
     // didMountRef.current = true;
-    // fetchPosts(getPage(), getQuery());
-    // console.log('second');
+    fetchPosts(getPage(), getQuery());
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
