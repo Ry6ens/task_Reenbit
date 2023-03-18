@@ -1,4 +1,17 @@
 export const useLocalStorage = () => {
+  const setUID = uid => {
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('uid', uid);
+    }
+  };
+
+  const getUID = () => {
+    if (typeof window !== 'undefined') {
+      const uid = window.localStorage.getItem('uid');
+      return uid ? uid : '';
+    }
+  };
+
   const setPage = currentPage => {
     window.localStorage.setItem('currentPage', currentPage);
   };
@@ -23,18 +36,5 @@ export const useLocalStorage = () => {
     }
   };
 
-  const setUID = uid => {
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem('uid', uid);
-    }
-  };
-
-  const getUID = () => {
-    if (typeof window !== 'undefined') {
-      const uid = window.localStorage.getItem('uid');
-      return uid ? uid : '';
-    }
-  };
-
-  return [setPage, getPage, setQuery, getQuery, setUID, getUID];
+  return [setUID, getUID, setPage, getPage, setQuery, getQuery];
 };

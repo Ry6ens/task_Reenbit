@@ -10,8 +10,8 @@ import { useLocalStorage } from '@/components/hooks/useLocalStorage';
 import { Header, Nav, List, Item, ItemLink } from './Navbar.styled';
 
 export default function Navbar({ children }) {
-  const [setPage, getPage, setQuery, getQuery, setUID, getUID] = useLocalStorage();
-  const { user, logOut } = useAuth();
+  const [setUID, getUID, setPage, getPage, setQuery, getQuery] = useLocalStorage();
+  const { logOut } = useAuth();
   const router = useRouter();
 
   const handleLogout = async () => {

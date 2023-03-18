@@ -20,7 +20,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({ email: null, uid: null });
   const [loading, setLoading] = useState(true);
-  const [setPage, getPage, setQuery, getQuery, setUID, getUID] = useLocalStorage();
+  const [setUID] = useLocalStorage();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
@@ -37,6 +37,8 @@ export const AuthContextProvider = ({ children }) => {
     setLoading(false);
 
     return () => unsubscribe();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // LogIn, SignUp, LogOut

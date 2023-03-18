@@ -18,7 +18,8 @@ import { getPosts } from '@/api/getPosts';
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
-  const [setPage, getPage, setQuery, getQuery, setUID, getUID] = useLocalStorage();
+  const [setUID, getUID, setPage, getPage, setQuery, getQuery] = useLocalStorage();
+
   const [filter, setFilter] = useState({ sort: 'name', query: getQuery() });
 
   const sortedPosts = useSortedPosts(posts, filter.sort);
@@ -36,25 +37,14 @@ export default function Home() {
     if (filter.query.length) {
       fetchPosts(getPage(), getQuery());
       setPage(1);
+
       return;
     }
-    console.log(Boolean(getUID()));
 
     getUID() ? fetchPosts(getPage(), getQuery()) : '';
 
-    // fetchPosts(getPage(), getQuery());
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter.query]);
-
-  // useEffect(() => {
-  // didMountRef.current = true;
-  // fetchPosts(getPage(), getQuery());
-  // didMountRef.current ? fetchPosts(getPage(), getQuery()) : '';
-  // didMountRef.current = true;
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   function changePage(page) {
     if (filter.query.length) {
