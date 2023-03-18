@@ -51,7 +51,9 @@ export default function Home() {
 
   useEffect(() => {
     // didMountRef.current = true;
-    fetchPosts(getPage(), getQuery());
+    // fetchPosts(getPage(), getQuery());
+    didMountRef.current ? fetchPosts(getPage(), getQuery()) : '';
+    didMountRef.current = true;
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
