@@ -42,8 +42,8 @@ export default function Home() {
     }
 
     didMountRef.current ? fetchPosts(getPage(), getQuery()) : '';
-    didMountRef.current = true;
     console.log('first', didMountRef.current);
+    didMountRef.current = true;
 
     // fetchPosts(getPage(), getQuery());
 
