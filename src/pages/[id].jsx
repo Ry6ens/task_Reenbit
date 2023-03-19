@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 import PostItem from '@/components/PostItem/PostItem';
+import Loader from '@/components/UI/Loader/Loader';
 import { useFetch } from '@/components/hooks/useFetch';
 
 import { getPost } from '@/api/getPosts';
 
-export default function Item({ findItem }) {
+export default function Item() {
   const router = useRouter();
   const [post, setPost] = useState(null);
 
@@ -20,16 +21,9 @@ export default function Item({ findItem }) {
 
   useEffect(() => {
     fetchPosts(postId);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postId]);
 
-  if (!post) {
-    return;
-  }
-
-  return (
-    <>
-      <PostItem data={post} />
-    </>
-  );
+  return <>{post ? <PostItem data={post} /> : <Loader />}</>;
 }
