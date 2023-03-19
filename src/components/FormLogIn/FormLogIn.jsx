@@ -4,12 +4,13 @@ import { useRouter } from 'next/router';
 
 import { useAuth } from '@/context/AuthContext';
 
-import MyButton from '@/components/UI/MyButton/MyButton';
+import { useLocalStorage } from '@/components/hooks/useLocalStorage';
 
-import EmailIcon from '../Icons/Email/Email';
-import LockIcon from '../Icons/Lock/Lock';
+import MyButton from '@/components/UI/MyButton/MyButton';
 import GoogleIcon from '@/components/Icons/Google/Google';
 import FacebookIcon from '@/components/Icons/Facebook/Facebook';
+import EmailIcon from '@/components/Icons/Email/Email';
+import LockIcon from '@/components/Icons/Lock/Lock';
 
 import {
   FormContainer,
@@ -23,11 +24,12 @@ import {
 } from './FormLogIn.styled';
 
 export default function FormLogIn() {
+  const router = useRouter();
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
 
+  const [setUID, getUID] = useLocalStorage();
   const { logIn, signInWithGoogle, signInWithFacebook } = useAuth();
-  const router = useRouter();
 
   function inputChangeHandler(e) {
     const { name, value } = e.target;
@@ -38,7 +40,8 @@ export default function FormLogIn() {
     e.preventDefault();
 
     try {
-      await logIn(form.email, form.password);
+      const { user } = await logIn(form.email, form.password);
+      setUID(user.uid);
       router.push('/');
     } catch (error) {
       setError(error.code);
@@ -49,7 +52,8 @@ export default function FormLogIn() {
 
   const signInGoogle = async () => {
     try {
-      await signInWithGoogle();
+      const { user } = await signInWithGoogle();
+      setUID(user.uid);
       router.push('/');
     } catch (error) {
       console.log(error);
@@ -58,7 +62,8 @@ export default function FormLogIn() {
 
   const signInFacebook = async () => {
     try {
-      await signInWithFacebook();
+      const { user } = await signInWithFacebook();
+      setUID(user.uid);
       router.push('/');
     } catch (error) {
       console.log(error);

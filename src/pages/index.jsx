@@ -1,8 +1,6 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 
-import ProtectedRoute from '@/components/ProtectedRoute/ProtectedRoute';
-
 import Hero from '@/components/Hero/Hero';
 import PostFilter from '@/components/PostFilter/PostFilter';
 import PostsList from '@/components/PostsList/PostsList';
@@ -67,22 +65,20 @@ export default function Home() {
       </Head>
 
       <main>
-        <ProtectedRoute>
-          <Hero />
-          <PostFilter filter={filter} setFilter={setFilter} />
+        <Hero />
+        <PostFilter filter={filter} setFilter={setFilter} />
 
-          {postsError && (
-            <h2 style={{ marginTop: '32px', textAlign: 'center' }}>{postsError}</h2>
-          )}
+        {postsError && (
+          <h2 style={{ marginTop: '32px', textAlign: 'center' }}>{postsError}</h2>
+        )}
 
-          {postsIsLoading ? <Loader /> : <PostsList posts={sortedPosts} />}
+        {postsIsLoading ? <Loader /> : <PostsList posts={sortedPosts} />}
 
-          <Pagination
-            currentPage={getPage()}
-            totalPageCount={totalPages}
-            changePage={changePage}
-          />
-        </ProtectedRoute>
+        <Pagination
+          currentPage={getPage()}
+          totalPageCount={totalPages}
+          changePage={changePage}
+        />
       </main>
     </>
   );

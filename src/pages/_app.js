@@ -5,23 +5,29 @@ const roboto = Roboto({
   subsets: ['latin'],
 });
 
-import Navbar from '@/components/Navbar/Navbar';
 import { AuthContextProvider } from '@/context/AuthContext';
+
+import ProtectedRoute from '@/components/ProtectedRoute/ProtectedRoute';
+import Navbar from '@/components/Navbar/Navbar';
 
 import GlobalStyles from '@/styles/Global.styled';
 
 export default function App({ Component, pageProps }) {
+  const protectedRoutes = ['/'];
+
   return (
     <AuthContextProvider>
-      <Navbar>
-        <style jsx global>{`
-          html {
-            font-family: ${roboto.style.fontFamily};
-          }
-        `}</style>
-        <GlobalStyles />
-        <Component {...pageProps} />
-      </Navbar>
+      <ProtectedRoute protectedRoutes={protectedRoutes}>
+        <Navbar>
+          <style jsx global>{`
+            html {
+              font-family: ${roboto.style.fontFamily};
+            }
+          `}</style>
+          <GlobalStyles />
+          <Component {...pageProps} />
+        </Navbar>
+      </ProtectedRoute>
     </AuthContextProvider>
   );
 }

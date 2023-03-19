@@ -10,7 +10,6 @@ import {
 } from 'firebase/auth';
 
 import { auth } from '@/lib/firebase';
-import Loader from '@/components/UI/Loader/Loader';
 import { useLocalStorage } from '@/components/hooks/useLocalStorage';
 
 const AuthContext = createContext({});
@@ -19,10 +18,19 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({ email: null, uid: null });
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [setUID] = useLocalStorage();
+  const [setUID, getUID] = useLocalStorage();
 
   useEffect(() => {
+    const uid = getUID();
+
+    if (uid) {
+      setIsAuthenticated(true);
+      setLoading(false);
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, user => {
       if (user) {
         setUser({
@@ -30,11 +38,14 @@ export const AuthContextProvider = ({ children }) => {
           uid: user.uid,
         });
         setUID(user.uid);
+        setIsAuthenticated(true);
       } else {
         setUser({ email: null, uid: null });
         setUID('');
+        setIsAuthenticated(false);
       }
     });
+
     setLoading(false);
 
     return () => unsubscribe();
@@ -42,36 +53,46 @@ export const AuthContextProvider = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // LogIn, SignUp, LogOut
+  // Signup
   const signUp = (email, password) => {
+    setIsAuthenticated(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
+  // Login
   const logIn = (email, password) => {
+    setIsAuthenticated(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
+  // Logout
   const logOut = async () => {
+    setIsAuthenticated(false);
     setUser({ email: null, uid: null });
+    setIsAuthenticated(false);
     await signOut(auth);
   };
 
   // Google auth
   const googleProvider = new GoogleAuthProvider();
   const signInWithGoogle = () => {
+    setIsAuthenticated(true);
     return signInWithPopup(auth, googleProvider);
   };
 
   // Facebook auth
   const facebookProvider = new FacebookAuthProvider();
   const signInWithFacebook = () => {
+    setIsAuthenticated(true);
     return signInWithPopup(auth, facebookProvider);
   };
 
   return (
     <AuthContext.Provider
       value={{
+        isAuthenticated,
         user,
+        loading,
         signUp,
         logIn,
         logOut,
@@ -79,7 +100,7 @@ export const AuthContextProvider = ({ children }) => {
         signInWithFacebook,
       }}
     >
-      {loading ? <Loader /> : children}
+      {children}
     </AuthContext.Provider>
   );
 };
